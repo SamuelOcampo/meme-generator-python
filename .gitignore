@@ -32,4 +32,5 @@ bower_components/*
 .pythonrc
 .local_ci_artifacts/
 bin/
+lib/**
 lib/
