@@ -1,5 +1,8 @@
+import os
 import math
-from PIL import Image, ImageDraw
+import random
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
 
 class MemeGenerator:
     def __init__(self, output_dir) -> None:
@@ -12,6 +15,19 @@ class MemeGenerator:
         with Image.open(img_path) as im:
             height = math.ceil((width * im.height) / im.width)
             im_resized = im.resize((width, height))
-            ImageDraw.Draw(im_resized).text((0,0),text)
-            ImageDraw.Draw(im_resized).text((0,0),author)
-            im_resized.save('./hello-sam.png', "PNG")
+
+            draw = ImageDraw.Draw(im_resized)
+            font = ImageFont.load_default()
+            font_width, font_height = font.getsize(text)
+
+            x = random.randint(0, width - font_width)
+            y = random.randint(0, height - font_height)
+
+            draw.text((x,y),text)
+            draw.text((x,y + 10),author)
+
+            file_name = os.path.split(img_path)[1]
+            destination = os.path.join(self.output_dir, file_name)
+            # Create dir if not exist
+            Path(self.output_dir).mkdir(parents=True, exist_ok=True)
+            im_resized.save(destination)
