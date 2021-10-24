@@ -1,7 +1,7 @@
 from QuoteEngine import IngestorInterface, QuoteModel
 
 class TextIngestor(IngestorInterface):
-    ALLOWED_EXTENSIONS = ['.txt']
+    ALLOWED_TYPES = ['.txt']
 
     def parse(cls, path: str):
         quotes = []

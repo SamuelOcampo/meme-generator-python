@@ -3,7 +3,7 @@ from docx import Document
 
 
 class DocxIngestor(IngestorInterface):
-    ALLOWED_EXTENSIONS = ['.docx']
+    ALLOWED_TYPES = ['.docx']
 
     def parse(cls, path: str):
         quotes = []

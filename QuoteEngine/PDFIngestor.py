@@ -4,10 +4,10 @@ from QuoteEngine import IngestorInterface, QuoteModel, TextIngestor
 
 
 class PDFIngestor(IngestorInterface):
-    ALLOWED_EXTENSIONS = ['.pdf']
+    ALLOWED_TYPES = ['.pdf']
 
     def parse(cls, path: str):
-        filename = cls.get_filename(path);
+        filename = cls.get_filename(path)
         tmp_file = f'{filename}_tmp.txt'
         subprocess.run(["pdftotext", "-raw", path, tmp_file])
         quotes = TextIngestor().parse(tmp_file)
