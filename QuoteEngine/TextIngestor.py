@@ -6,7 +6,7 @@ class TextIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path: str):
         quotes = []
-        with open(path, encoding='utf8') as f:
+        with open(path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             for line in lines:
                 l = line.strip()
