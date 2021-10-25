@@ -3,15 +3,16 @@ from QuoteEngine import DocxIngestor, TextIngestor, PDFIngestor, QuoteModel, Ing
 
 
 class Ingestor(IngestorInterface):
-    INGESTORS = [DocxIngestor(), TextIngestor(), PDFIngestor(), CSVIngestor()]
+    INGESTORS = [DocxIngestor, TextIngestor, PDFIngestor, CSVIngestor]
 
     def __init__(self):
         pass
 
-    def parse(self, path: str) -> List[QuoteModel]:
-        if not self.can_ingest(path):
+    @classmethod
+    def parse(cls, path: str) -> List[QuoteModel]:
+        if not cls.can_ingest(path):
             raise Exception('Invalid extension')
 
-        for ingestor in self.INGESTORS:
+        for ingestor in cls.INGESTORS:
             if ingestor.can_ingest(path):
                 return ingestor.parse(path)

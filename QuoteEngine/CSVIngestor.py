@@ -5,6 +5,7 @@ from QuoteEngine import IngestorInterface, QuoteModel
 class CSVIngestor(IngestorInterface):
     ALLOWED_TYPES = ['.csv']
 
+    @classmethod
     def parse(cls, path: str):
         quotes = []
         df = pd.read_csv(path)

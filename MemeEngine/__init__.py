@@ -4,7 +4,7 @@ import random
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
-class MemeGenerator:
+class MemeEngine:
     def __init__(self, output_dir) -> None:
         self.output_dir = output_dir
 

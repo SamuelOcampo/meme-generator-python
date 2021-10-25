@@ -1,8 +1,8 @@
 class QuoteModel:
     """A  Quote object"""
-    def __init__(self, text, author):
-        self.text = text
+    def __init__(self, body, author):
+        self.body = body
         self.author = author
 
     def __repr__(self):
-        return f'{self.text} - {self.author}'
+        return f'{self.body} - {self.author}'

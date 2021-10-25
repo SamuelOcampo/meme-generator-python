@@ -3,6 +3,7 @@ from QuoteEngine import IngestorInterface, QuoteModel
 class TextIngestor(IngestorInterface):
     ALLOWED_TYPES = ['.txt']
 
+    @classmethod
     def parse(cls, path: str):
         quotes = []
         with open(path, encoding='utf8') as f:

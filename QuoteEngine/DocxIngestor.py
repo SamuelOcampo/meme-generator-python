@@ -5,6 +5,7 @@ from docx import Document
 class DocxIngestor(IngestorInterface):
     ALLOWED_TYPES = ['.docx']
 
+    @classmethod
     def parse(cls, path: str):
         quotes = []
         doc = Document(path)
