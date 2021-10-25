@@ -21,7 +21,6 @@ premiere/gspread
 static/*
 htmlcov/
 *~
-*.csv
 *.bak
 *.db
 celerybeat.pid

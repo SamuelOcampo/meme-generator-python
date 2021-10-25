@@ -62,11 +62,6 @@ def meme_post():
     body = request.form['body']
     author = request.form['author']
 
-    # 1. Use requests to save the image from the image_url
-    #    form param to a temp local file.
-    # 2. Use the meme object to generate a meme using this temp
-    #    file and the body and author form paramaters.
-    # 3. Remove the temporary saved image.
     tmp_img = None
     path = None
 
