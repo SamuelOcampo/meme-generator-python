@@ -1,5 +1,7 @@
-from .QuoteModel import QuoteModel
+"""Quote engine."""
+
 from .IngestorInterface import IngestorInterface
+from .QuoteModel import QuoteModel
 from .TextIngestor import TextIngestor
 from .DocxIngestor import DocxIngestor
 from .PDFIngestor import PDFIngestor

@@ -1,3 +1,5 @@
+"""Meme enginer module."""
+
 import os
 import math
 import random
@@ -6,10 +8,14 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 class MemeEngine:
+    """Meme Engine generator."""
+
     def __init__(self, output_dir) -> None:
+        """Save output dir."""
         self.output_dir = output_dir
 
     def make_meme(self, img_path, text, author, width=500) -> str:
+        """Generate a meme."""
         if width > 500:
             raise Exception('Maximun width is 500')
 
