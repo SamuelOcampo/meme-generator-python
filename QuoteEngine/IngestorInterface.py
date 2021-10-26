@@ -15,7 +15,7 @@ class IngestorInterface(ABC):
     @abstractmethod
     def parse(cls, path: str) -> List[QuoteModel]:
         pass
-    
+
     @classmethod
     def get_file_extension(self, path: str) -> str:
         filename, file_extension = os.path.splitext(path)
@@ -23,5 +23,5 @@ class IngestorInterface(ABC):
 
     @classmethod
     def get_filename(self, path: str) -> str:
-        filename,file_extension = os.path.splitext(path)
+        filename, file_extension = os.path.splitext(path)
         return filename

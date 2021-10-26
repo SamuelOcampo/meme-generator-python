@@ -14,4 +14,3 @@ class CSVIngestor(IngestorInterface):
             quotes.append(QuoteModel(f'"{text}"',  row['author']))
 
         return quotes
-            

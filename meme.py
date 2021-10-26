@@ -48,7 +48,5 @@ if __name__ == "__main__":
     parser.add_argument('--body', help='Quote body to add to the image.')
     parser.add_argument('--author', help='Author to add to the image quote')
 
-
-
     args = parser.parse_args()
     print(generate_meme(args.path, args.body, args.author))

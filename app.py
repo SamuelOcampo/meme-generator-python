@@ -22,17 +22,15 @@ def setup():
     quote_files = [Ingestor.parse(file) for file in quote_files]
     quotes = [quote for quotes_per_file in quote_files for quote in quotes_per_file]
 
-
     images_path = "./_data/photos/dog/"
-    valid_images = [".jpg",".png"]
+    valid_images = [".jpg", ".png"]
 
     imgs = []
     for f in os.listdir(images_path):
         ext = os.path.splitext(f)[1]
         if ext.lower() not in valid_images:
             continue
-        imgs.append(os.path.join(images_path,f))
-
+        imgs.append(os.path.join(images_path, f))
 
     return quotes, imgs
 
@@ -68,7 +66,7 @@ def meme_post():
     if image_url:
         img_name = image_url.rsplit('/', 1)[1]
         r = requests.get(image_url, allow_redirects=True)
-        tmp_img = os.path.join('./tmp',img_name)
+        tmp_img = os.path.join('./tmp', img_name)
         open(tmp_img, 'wb').write(r.content)
     else:
         tmp_img = None

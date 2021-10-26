@@ -1,5 +1,6 @@
 from QuoteEngine import IngestorInterface, QuoteModel
 
+
 class TextIngestor(IngestorInterface):
     ALLOWED_TYPES = ['.txt']
 
@@ -14,4 +15,3 @@ class TextIngestor(IngestorInterface):
                     text, author = l.split(' - ')
                     quotes.append(QuoteModel(text, author))
         return quotes
-            
