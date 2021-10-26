@@ -2,6 +2,7 @@
 import random
 import os
 import requests
+from pathlib import Path
 from flask import Flask, render_template, abort, request
 
 from MemeEngine import MemeEngine
@@ -62,17 +63,27 @@ def meme_post():
 
     tmp_img = None
     path = None
+    output_dir = './tmp'
 
-    if image_url:
+    if  image_url:
         img_name = image_url.rsplit('/', 1)[1]
-        r = requests.get(image_url, allow_redirects=True)
-        tmp_img = os.path.join('./tmp', img_name)
-        open(tmp_img, 'wb').write(r.content)
+        img_extension = img_name.split('.')[-1]
+        if img_extension in ['png', 'jpg', 'jpeg']:
+            try:
+                r = requests.get(image_url, allow_redirects=True)
+                tmp_img = os.path.join(output_dir, img_name)
+                Path(output_dir).mkdir(parents=True, exist_ok=True)
+                open(tmp_img, 'wb').write(r.content)
+                path = meme.make_meme(tmp_img, body, author)
+                os.remove(tmp_img)
+            except:
+                raise Exception('Error trying to generate image.')
+        else:
+            error_msj = f'Invalid image extension {img_extension}'
+            raise Exception(error_msj) 
     else:
-        tmp_img = None
+        raise  Exception('Missing image')
 
-    path = meme.make_meme(tmp_img, body, author)
-    os.remove(tmp_img)
 
     return render_template('meme.html', path=path)
 
