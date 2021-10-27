@@ -3,8 +3,10 @@
 import os
 import math
 import random
+import textwrap
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
+from string import ascii_letters
 
 
 class MemeEngine:
@@ -13,26 +15,56 @@ class MemeEngine:
     def __init__(self, output_dir) -> None:
         """Save output dir."""
         self.output_dir = output_dir
+        self.font = ImageFont.truetype(
+            './OpenSans-Regular.ttf', size=16, encoding='utf-8')
+        self.avg_char_width = sum(self.font.getsize(
+            char)[0] for char in ascii_letters) / len(ascii_letters)
+        self.avg_char_height = sum(self.font.getsize(
+            char)[1] for char in ascii_letters) / len(ascii_letters)
 
-    def make_meme(self, img_path, text, author, width=500) -> str:
+    def get_resized_image(self, im, width):
+        """Return resized image."""
+        height = math.ceil((width * im.height) / im.width)
+        return im.resize((width, height))
+
+    def calculate_max_char_count(self, width):
+        """Return max number of chars in a line."""
+        return int((width * .90) / self.avg_char_width)
+
+    def generate_quote(self, width, text='', author=''):
+        """Return a quote object."""
+        max_width = self.calculate_max_char_count(width)
+
+        quote_lines = textwrap.wrap(
+            text, max_width) + textwrap.wrap(author, max_width)
+        quote_text = ''
+        for line in quote_lines:
+            quote_text = quote_text + line + '\n'
+
+        return {
+            'text': quote_text,
+            'height': len(quote_lines) * self.avg_char_height,
+            'width': len(quote_lines) * max_width
+        }
+
+    def make_meme(self, img_path, text='', author='', width=500) -> str:
         """Generate a meme."""
         if width > 500:
             raise Exception('Maximun width is 500')
 
         with Image.open(img_path) as im:
-            height = math.ceil((width * im.height) / im.width)
-            im_resized = im.resize((width, height))
+            im_resized = self.get_resized_image(im, width)
 
             draw = ImageDraw.Draw(im_resized)
-            font = ImageFont.truetype(
-                './OpenSans-Regular.ttf', size=10, encoding='utf-8')
-            font_width, font_height = font.getsize(text)
 
-            x = random.randint(0, im_resized.width - font_width - 10)
-            y = random.randint(0, im_resized.height - font_height * 2 - 10)
+            quote = self.generate_quote(im_resized.width, text, author)
 
-            draw.text((x, y), text, font=font)
-            draw.text((x, y + 10), author, font=font)
+            x = random.randint(int(im_resized.width * .10),
+                               int((im_resized.width * .90) - quote['width']))
+            y = random.randint(int(im_resized.width * .10),
+                               int((im_resized.height * .90) - quote['height']))
+
+            draw.text((x, y), quote['text'], font=self.font)
 
             file_name = os.path.split(img_path)[1]
             destination = os.path.join(self.output_dir, file_name)

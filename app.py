@@ -65,25 +65,27 @@ def meme_post():
     path = None
     output_dir = './tmp'
 
-    if  image_url:
-        img_name = image_url.rsplit('/', 1)[1]
-        img_extension = img_name.split('.')[-1]
-        if img_extension in ['png', 'jpg', 'jpeg']:
-            try:
-                r = requests.get(image_url, allow_redirects=True)
-                tmp_img = os.path.join(output_dir, img_name)
-                Path(output_dir).mkdir(parents=True, exist_ok=True)
-                open(tmp_img, 'wb').write(r.content)
-                path = meme.make_meme(tmp_img, body, author)
-                os.remove(tmp_img)
-            except:
-                raise Exception('Error trying to generate image.')
+    try:
+        if image_url:
+            img_name = image_url.rsplit('/', 1)[1]
+            img_extension = img_name.split('.')[-1]
+            if img_extension.lower() in ['png', 'jpg', 'jpeg']:
+                try:
+                    r = requests.get(image_url, allow_redirects=True)
+                    tmp_img = os.path.join(output_dir, img_name)
+                    Path(output_dir).mkdir(parents=True, exist_ok=True)
+                    open(tmp_img, 'wb').write(r.content)
+                    path = meme.make_meme(tmp_img, body, author)
+                    os.remove(tmp_img)
+                except:
+                    raise Exception('Error trying to generate image.')
+            else:
+                error_msj = f'Invalid image extension {img_extension}'
+                raise Exception(error_msj)
         else:
-            error_msj = f'Invalid image extension {img_extension}'
-            raise Exception(error_msj) 
-    else:
-        raise  Exception('Missing image')
-
+            raise Exception('Missing image')
+    except:
+        path = meme.make_meme('./imgs/black-img.jpeg', 'Invalid image')
 
     return render_template('meme.html', path=path)
 
